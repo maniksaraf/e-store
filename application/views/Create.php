@@ -11,16 +11,21 @@ echo form_open($form_location);
 <table cellpadding="7" cellspacing="0" border="0" width="600">
 	<tr>
 		<td valign="top">Name</td>
-		<td><?php echo form_input('item_name', $item_name); ?></td>
+		<td><?php echo form_input('name', $name); ?></td>
 	</tr>
 	<tr>
 		<td valign="top">Price</td>	
-		<td><?php echo form_input('item_price', $item_price); ?></td>
+		<td><?php echo form_input('price', $price); ?></td>
+	</tr>
+	<tr>
+		<td valign="top">Image URL</td>
+		<td><?php echo form_input('photo_url', $photo_url); ?></td>
 	</tr>
 	<tr>
 		<td valign="top">Description</td>
-		<td><?php echo form_textarea('item_description', $item_description); ?></td>
+		<td><?php echo form_textarea('description', $description); ?></td>
 	</tr>
+	
 	<tr>
 		<td valign="top">&nbsp</td>
 		<td><?php echo form_submit('submit', 'Submit'); ?></td>

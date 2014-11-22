@@ -2,6 +2,6 @@
 
 <ul>
 	<li><?php echo anchor('store_items/manage', 'Manage'); ?></li>
-	<li></li>
-	<li></li>
+	<li><?php echo anchor('store_items/clear1', 'Clear orders'); ?></li>
+	<li><?php echo anchor('store_items/clear2', 'Clear customers'); ?></li>
 </ul>

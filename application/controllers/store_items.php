@@ -12,24 +12,55 @@ class Store_items extends CI_Controller {
 
 	}
 
-	function back() {
+	function clear1 () {
+		$this->db->empty_table('orders');
 		redirect('store_items/index');
 	}
-	function get_data_db(){
-		$query; 
 
+	function clear2 () {
+		$this->db->empty_table('customers');
+		redirect('store_items/index');
+	}
+
+	function back() {
+		redirect('store_items/index');
 	}
 
 	function _display_items_table() {
 		$query = $this->get('item_name');
 		$this->load->view('items_table', $data);
 	}
+
 	function get_data_post() {
-		$data['item_name'] = $this->input->post('item_name', TRUE);
-		$data['item_price'] = $this->input->post('item_price', TRUE);
-		$data['item_description'] = $this->input->post('item_description', TRUE);
+		$data['name'] = $this->input->post('name', TRUE);
+		$data['price'] = $this->input->post('price', TRUE);
+		$data['photo_url'] = $this->input->post('photo_url', TRUE);
+		$data['description'] = $this->input->post('description', TRUE);
+
 
 		return $data;
+	}
+
+	function edit() {
+		$data = $this->get_data_post();
+		/*$submit = 
+		$data['name'] = $row->name;
+		$data['price'] = $row->price;
+		$data['photo_url'] = $row->photo_url;
+		$data['description'] = $row->description;
+		*/
+		$current_url = current_url();
+		$data['form_location'] = str_replace('/edit', '/submit', $current_url);
+
+		$flash = $this->session->flashdata('item');
+		if ($flash!="") {
+			$data['flash'] = $flash;
+		}
+
+		$template = 'admin';
+		$data['view_file'] = 'edit';
+		$this->load->view('edit', $data);
+
 	}
 	function create() {
 		$data = $this->get_data_post();
@@ -55,9 +86,10 @@ class Store_items extends CI_Controller {
 
 		$this->load->library('form_validation');
 
-		$this->form_validation->set_rules('item_name', 'Name', 'required');
-		$this->form_validation->set_rules('item_price', 'Price', 'is_numeric|required');
-		$this->form_validation->set_rules('item_description', 'Description', 'required');
+		$this->form_validation->set_rules('name', 'Name', 'required');
+		$this->form_validation->set_rules('price', 'Price', 'is_numeric|required');
+		$this->form_validation->set_rules('photo_url', 'Image URL', 'required');
+		$this->form_validation->set_rules('description', 'Description', 'required');
 
 		if ($this->form_validation->run() == FALSE)
 		{
@@ -66,6 +98,8 @@ class Store_items extends CI_Controller {
 		else
 		{
 			$data = $this->get_data_post();
+			$this->db->insert('products', $data);
+
 			$value = "<p style='color: green;'>The item was created.</p>";
 			$this->session->set_flashdata('item', $value);
 			redirect('store_items/create');
